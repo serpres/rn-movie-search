@@ -11,6 +11,7 @@ export default function Button({
   secondary,
   color,
   bold,
+  onPress,
   ...rest
 }) {
   return (
@@ -20,7 +21,9 @@ export default function Button({
         secondary ? styles.secondary : styles.primary,
         pressed ? styles.pressed : styles.default,
         style,
-      ]}>
+      ]}
+      onPress={onPress}
+      {...rest}>
       <Text
         bold={bold ? bold : null}
         color={color ? color : 'dark'}

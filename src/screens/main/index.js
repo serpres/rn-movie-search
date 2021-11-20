@@ -1,21 +1,23 @@
 import React from 'react';
-import {View, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
-import Text from '../../components/common/text';
+import {Text} from '../../components/common';
 
 import SearchForm from '../../components/search-form';
+import Recommended from '../../components/recommended';
 
-export default function Main() {
+export default function Main({navigation}) {
   return (
     <View style={styles.body}>
       <View style={styles.sectionOne}>
-        <SearchForm />
+        <SearchForm navigation={navigation} />
       </View>
 
       <View style={styles.sectionTwo}>
         <Text type="h2" color="dark" borderBottom>
           Recommended
         </Text>
+        <Recommended />
       </View>
     </View>
   );

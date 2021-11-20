@@ -5,12 +5,22 @@ import {Picker as RNPicker} from '@react-native-picker/picker';
 
 import {Colors} from '../../../consts';
 
-export default function Picker({style, onValueChange, data}) {
+export default function Picker({
+  style,
+  onValueChange,
+  data,
+  selectedValue,
+  setPickedValue,
+}) {
   return (
     <View style={[styles.picker, style]}>
-      <RNPicker onValueChange={onValueChange}>
+      <RNPicker onValueChange={onValueChange} selectedValue={selectedValue}>
         {data.map(item => (
-          <RNPicker.Item label={item.label} value={item.value} />
+          <RNPicker.Item
+            key={item.value}
+            label={item.label}
+            value={item.value}
+          />
         ))}
       </RNPicker>
     </View>

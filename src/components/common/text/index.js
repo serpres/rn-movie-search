@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
   h2: {
     fontSize: 32,
   },
+  h3: {
+    fontSize: 18,
+  },
   button: {
     fontSize: 18,
     textAlign: 'center',

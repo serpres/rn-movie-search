@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import TextInput from '../common/text-input';
-import Button from '../common/button';
+import {TextInput, Button, Picker} from '../common';
 
-import Picker from '../common/picker';
+export default function SearchForm({navigation}) {
+  const [searchQuery, setSearchQuery] = useState();
+  const [pickedValue, setPickedValue] = useState();
+  const [year, setYear] = useState();
 
-export default function SearchForm() {
   const filters = [
     {
       label: 'Any type',
@@ -25,15 +26,52 @@ export default function SearchForm() {
       value: 'episode',
     },
   ];
+
+  const onSearch = async () => {
+    navigation.navigate('Search', {
+      searchParams: {searchQuery, type: pickedValue, year},
+    });
+  };
+
   return (
     <View>
-      <TextInput placeholder="Search..." />
+      <TextInput
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        placeholder="Search..."
+      />
       <View style={styles.filters}>
-        <Picker style={styles.picker} data={filters} />
-        <TextInput style={styles.yearInput} placeholder="Year" />
+        <Picker
+          style={styles.picker}
+          data={filters}
+          selectedValue={pickedValue}
+          onValueChange={itemValue => setPickedValue(itemValue)}
+        />
+        <TextInput
+          value={year}
+          onChangeText={setYear}
+          keyboardType="numeric"
+          style={styles.yearInput}
+          placeholder="Year"
+        />
       </View>
+      <View style={styles.buttons}>
+        <Button
+          style={styles.button}
+          secondary
+          color="light"
+          onPress={() => {
+            setSearchQuery('');
+            setPickedValue('');
+            setYear('');
+          }}>
+          Reset filters
+        </Button>
 
-      <Button color="light">Search</Button>
+        <Button style={styles.button} color="light" onPress={onSearch}>
+          Search
+        </Button>
+      </View>
     </View>
   );
 }
@@ -50,5 +88,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: 40,
   },
-  picker: {flexGrow: 10},
+  picker: {
+    flexGrow: 10,
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    flexGrow: 1,
+    marginHorizontal: 10,
+  },
 });
