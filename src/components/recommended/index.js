@@ -21,7 +21,8 @@ export default function Recommended() {
     setIsLoading(true);
     getRandomRecommendation(count)
       .then(data => setRecommended(data))
-      .then(() => setIsLoading(false));
+      .then(() => setIsLoading(false))
+      .catch(error => console.log(error));
   };
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function Recommended() {
 
 const styles = StyleSheet.create({
   recommendedContainer: {
-    flex: 1,
+    flexGrow: 1,
     padding: 5,
   },
   item: {

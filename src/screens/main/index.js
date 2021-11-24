@@ -9,11 +9,11 @@ import Recommended from '../../components/recommended';
 export default function Main({navigation}) {
   return (
     <View style={styles.body}>
-      <View style={styles.sectionOne}>
+      <View style={styles.section}>
         <SearchForm navigation={navigation} />
       </View>
 
-      <View style={styles.sectionTwo}>
+      <View style={styles.section}>
         <Text type="h2" color="dark" borderBottom>
           Recommended
         </Text>
@@ -27,12 +27,8 @@ const styles = StyleSheet.create({
   body: {
     flexGrow: 1,
   },
-  sectionOne: {
+  section: {
     paddingHorizontal: 10,
     paddingTop: 10,
-  },
-  sectionTwo: {
-    paddingHorizontal: 10,
-    flexGrow: 1,
   },
 });

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Keyboard} from 'react-native';
 
 import {TextInput, Button, Picker} from '../common';
 
@@ -7,6 +7,7 @@ export default function SearchForm({navigation}) {
   const [searchQuery, setSearchQuery] = useState();
   const [pickedValue, setPickedValue] = useState();
   const [year, setYear] = useState();
+  const [error, setError] = useState();
 
   const filters = [
     {
@@ -27,10 +28,22 @@ export default function SearchForm({navigation}) {
     },
   ];
 
-  const onSearch = async () => {
-    navigation.navigate('Search', {
-      searchParams: {searchQuery, type: pickedValue, year},
-    });
+  const onSearch = () => {
+    if (searchQuery) {
+      Keyboard.dismiss();
+      setError('');
+      navigation.navigate('Search', {
+        searchParams: {searchQuery, type: pickedValue, year},
+      });
+    } else setError({queryInput: 'Cant be empty'});
+  };
+
+  const handleReset = () => {
+    setSearchQuery('');
+    setPickedValue('');
+    setYear('');
+    setError('');
+    Keyboard.dismiss();
   };
 
   return (
@@ -39,6 +52,7 @@ export default function SearchForm({navigation}) {
         value={searchQuery}
         onChangeText={setSearchQuery}
         placeholder="Search..."
+        error={error?.queryInput}
       />
       <View style={styles.filters}>
         <Picker
@@ -57,18 +71,14 @@ export default function SearchForm({navigation}) {
       </View>
       <View style={styles.buttons}>
         <Button
-          style={styles.button}
+          style={styles.resetFiltersButton}
           secondary
           color="light"
-          onPress={() => {
-            setSearchQuery('');
-            setPickedValue('');
-            setYear('');
-          }}>
+          onPress={handleReset}>
           Reset filters
         </Button>
 
-        <Button style={styles.button} color="light" onPress={onSearch}>
+        <Button style={styles.searchButton} color="light" onPress={onSearch}>
           Search
         </Button>
       </View>
@@ -95,8 +105,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  button: {
+  searchButton: {
     flexGrow: 1,
-    marginHorizontal: 10,
+  },
+  resetFiltersButton: {
+    marginRight: 10,
+    flexGrow: 1,
   },
 });

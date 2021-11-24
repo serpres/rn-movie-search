@@ -12,16 +12,17 @@ import {search} from '../../resources/search.api';
 
 import {Text} from '../../components/common';
 
-const FindedItem = ({item}) => {
+const FoundItem = ({item}) => {
   return (
-    <View style={styles.findedItem}>
+    <View style={styles.foundItem}>
       <Text type="h3" color="dark">
         {item.Title}
       </Text>
 
-      <Text style={{textTransform: 'capitalize'}}>
+      <Text style={styles.description}>
         {item.Type}, {item.Year}
       </Text>
+
       {item.Poster === 'N/A' ? (
         <Text>(No image)</Text>
       ) : (
@@ -37,10 +38,11 @@ export default function Search({route}) {
   const [searchData, setSearchData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getSearchResult = useCallback(async () => {
-    const {data} = await search(searchQuery, type, year);
-    setSearchData(data.Search);
-    setIsLoading(false);
+  const getSearchResult = useCallback(() => {
+    search(searchQuery, type, year)
+      .then(({data}) => setSearchData(data.Search))
+      .then(() => setIsLoading(false))
+      .catch(error => console.log(error));
   }, [searchQuery, type, year]);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export default function Search({route}) {
       <FlatList
         data={searchData}
         keyExtractor={item => item.imdbID}
-        renderItem={FindedItem}
+        renderItem={FoundItem}
       />
     </View>
   );
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     height: 500,
     borderRadius: 5,
   },
-  findedItem: {
+  foundItem: {
     padding: 10,
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -86,7 +88,9 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.18,
     shadowRadius: 1.0,
-
     elevation: 1,
+  },
+  description: {
+    textTransform: 'capitalize',
   },
 });

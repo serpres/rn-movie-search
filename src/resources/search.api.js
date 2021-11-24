@@ -1,29 +1,28 @@
 import api from '../api';
 
-import {OMDB_API_KEY, RECOMMENDED_DATA} from '../consts';
+import {RECOMMENDED_DATA} from '../consts';
 
-export const getById = async id => {
+export const getById = id => {
   const params = {
     i: id,
-    apiKey: OMDB_API_KEY,
   };
   return api.get('', params);
 };
 
 export const getRandomRecommendation = count => {
-  const Ids = new Set();
+  const ids = new Set();
   const promises = [];
 
-  if (count > RECOMMENDED_DATA.length) {
-    return;
+  if (count >= RECOMMENDED_DATA.length) {
+    RECOMMENDED_DATA.forEach(item => promises.push(getById(item.id)));
   }
 
-  while (Ids.size !== count) {
+  while (ids.size !== count) {
     const randomize = Math.floor(Math.random() * RECOMMENDED_DATA.length);
-    Ids.add(RECOMMENDED_DATA[randomize].id);
+    ids.add(RECOMMENDED_DATA[randomize].id);
   }
 
-  Ids.forEach(id => promises.push(getById(id)));
+  ids.forEach(id => promises.push(getById(id)));
 
   return Promise.all(promises).then(values => values.map(value => value.data));
 };
@@ -33,7 +32,7 @@ export const search = async (title, type, year) => {
     s: title,
     type: type,
     y: year,
-    apiKey: OMDB_API_KEY,
   };
+
   return api.get('', params);
 };

@@ -17,7 +17,7 @@ export default function Text({
       style={[
         styles.text,
         type ? styles[type] : null,
-        color ? styles[color] : null,
+        color ? styles[color] : color,
         bold ? styles.bold : null,
         borderBottom ? styles.borderBottom : null,
         style,
@@ -56,6 +56,9 @@ const styles = StyleSheet.create({
   },
   primary: {
     color: Colors.primary,
+  },
+  error: {
+    color: Colors.error,
   },
   secondary: {
     color: Colors.secondary,
