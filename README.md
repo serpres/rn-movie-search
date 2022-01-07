@@ -1,7 +1,8 @@
 
 ## Start application
+<p align="center">
+<img src="https://i.imgur.com/UdpOqsV.png" width="420" alt="Nest Logo" /></p>
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
 
 1. Clone repository
 2. Start "npm install (or yarn add)"
